@@ -53,4 +53,30 @@ public func routes(_ router: Router) throws {
             .filter(\.short == searchTerm)
             .all()
     }
+    
+    router.get("api", "acronyms", "search") { req -> Future<[Acronym]> in
+        guard let searchTerm = req.query[String.self, at: "term"] else {
+            throw Abort(.badRequest)
+        }
+        
+        return Acronym.query(on: req).group(.or) { or in
+            or.filter(\.short == searchTerm)
+            or.filter(\.long == searchTerm)
+        }.all()
+    }
+    
+    router.get("api", "acronyms", "first") {
+    req -> Future<Acronym> in
+    // 2
+    return Acronym.query(on: req)
+        .first()
+        .unwrap(or: Abort(.notFound))
+}
+    router.get("api", "acronyms", "sorted") {
+    req -> Future<[Acronym]> in
+    // 2
+    return Acronym.query(on: req)
+        .sort(\.short, .ascending)
+        .all()
+}
 }
