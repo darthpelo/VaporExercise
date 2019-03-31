@@ -7,7 +7,6 @@ public func configure(
     _: inout Environment,
     _ services: inout Services
 ) throws {
-    // 2
     try services.register(FluentMySQLProvider())
 
     let router = EngineRouter.default()
@@ -19,7 +18,7 @@ public func configure(
     services.register(middlewares)
 
     var databases = DatabasesConfig()
-    // 3
+
     let databaseConfig = MySQLDatabaseConfig(
         hostname: "localhost",
         username: "vapor",
@@ -30,7 +29,7 @@ public func configure(
     databases.add(database: database, as: .mysql)
     services.register(databases)
     var migrations = MigrationConfig()
-    // 4
+    migrations.add(model: User.self, database: .mysql)
     migrations.add(model: Acronym.self, database: .mysql)
     services.register(migrations)
 }
