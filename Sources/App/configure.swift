@@ -31,5 +31,7 @@ public func configure(
     var migrations = MigrationConfig()
     migrations.add(model: User.self, database: .mysql)
     migrations.add(model: Acronym.self, database: .mysql)
+    migrations.add(model: Category.self, database: .mysql)
+    migrations.add(model: AcronymCategoryPivot.self, database: .mysql)
     services.register(migrations)
 }
