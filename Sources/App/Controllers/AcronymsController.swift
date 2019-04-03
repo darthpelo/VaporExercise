@@ -35,6 +35,11 @@ struct AcronymsController: RouteCollection {
             "categories",
             use: getCategoriesHandler
         )
+
+        acronymsRoutes.delete(Acronym.parameter,
+                              "categories",
+                              Category.parameter,
+                              use: removeCategoriesHandler)
     }
 
     func getAllHandler(_ req: Request) throws -> Future<[Acronym]> {
@@ -119,5 +124,19 @@ struct AcronymsController: RouteCollection {
             .flatMap(to: [Category].self) { acronym in
                 try acronym.categories.query(on: req).all()
             }
+    }
+
+    func removeCategoriesHandler(
+        _ req: Request
+    ) throws -> Future<HTTPStatus> {
+        return try flatMap(
+            to: HTTPStatus.self,
+            req.parameters.next(Acronym.self),
+            req.parameters.next(Category.self)
+        ) { acronym, category in
+            acronym.categories
+                .detach(category, on: req)
+                .transform(to: .noContent)
+        }
     }
 }

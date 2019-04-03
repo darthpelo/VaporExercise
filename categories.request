@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>baseURL</key>
-	<string>http://localhost:8080/api/categories</string>
+	<string>http://localhost:8080/api/categories/1/acronyms</string>
 	<key>followRedirect</key>
 	<true/>
 	<key>handleJSONPCallbacks</key>
@@ -11,7 +11,7 @@
 	<key>headers</key>
 	<array/>
 	<key>httpMethod</key>
-	<string>POST</string>
+	<string>GET</string>
 	<key>jsonpScript</key>
 	<string></string>
 	<key>paramBodyUIChoice</key>
